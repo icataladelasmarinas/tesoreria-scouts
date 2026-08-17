@@ -12,8 +12,8 @@
       --primary: #4c1d95;       /* Morado principal */
       --primary-dark: #2e1065;  /* Morado muy oscuro */
       --primary-light: #f3e8ff; /* Morado claro */
-      --accent: #f0ce3f;        /* Dorado / Ámbar */
-      --accent-gold: #f4e7b0;   /* Dorado */
+      --accent: #d97706;        /* Dorado / Ámbar */
+      --accent-gold: #f59e0b;   /* Dorado */
       --bg: #faf5ff;            /* Fondo suave */
       --card-bg: #ffffff;
       --text: #1f2937;
@@ -21,6 +21,15 @@
       --border: #e5e7eb;
       --radius: 16px;
       --shadow: 0 10px 25px -5px rgba(76, 29, 149, 0.08), 0 8px 10px -6px rgba(76, 29, 149, 0.04);
+
+      /* Colores de ramas scout */
+      --col-castores: #ea580c;  /* Naranja */
+      --col-manada: #f59e0b;    /* Amarillo */
+      --col-tropa: #1e40af;     /* Azul Oscuro */
+      --col-pioneros: #dc2626;  /* Rojo */
+      --col-rutas: #16a34a;     /* Verde */
+      --col-kraal: #0284c7;     /* Azul Claro */
+      --col-dorado: #b45309;    /* Dorado para Material y Campamentos */
     }
 
     * {
@@ -94,14 +103,14 @@
       display: block;
       font-size: 13px;
       font-weight: 700;
-      color: #507cc2;
+      color: #374151; /* Texto oscuro original */
       margin-bottom: 7px;
       text-transform: uppercase;
       letter-spacing: 0.4px;
     }
 
     label span.req {
-      color: #d42323;
+      color: #ef4444;
       margin-left: 2px;
     }
 
@@ -254,7 +263,7 @@
       justify-content: center;
     }
 
-    /* Section Chips */
+    /* Section Chips con colores por rama */
     .chip-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -270,20 +279,74 @@
       text-align: center;
       padding: 10px 6px;
       background: #f3f4f6;
-      border: 1.5px solid transparent;
+      border: 2px solid transparent;
       border-radius: 10px;
       font-size: 13px;
       font-weight: 600;
       color: #4b5563;
       cursor: pointer;
       transition: all 0.2s ease;
+      user-select: none;
     }
 
-    .chip-radio:checked + .chip-label {
-      background: var(--primary);
+    /* Castores - Naranja */
+    #sec_cas:checked + .chip-label {
+      background: var(--col-castores);
       color: #ffffff;
-      border-color: var(--primary-dark);
-      box-shadow: 0 4px 10px rgba(76, 29, 149, 0.25);
+      border-color: #c2410c;
+      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.35);
+    }
+
+    /* Manada - Amarillo */
+    #sec_man:checked + .chip-label {
+      background: var(--col-manada);
+      color: #78350f;
+      border-color: #d97706;
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+    }
+
+    /* Tropa - Azul Oscuro */
+    #sec_tro:checked + .chip-label {
+      background: var(--col-tropa);
+      color: #ffffff;
+      border-color: #172554;
+      box-shadow: 0 4px 12px rgba(30, 64, 175, 0.35);
+    }
+
+    /* Pioneros - Rojo */
+    #sec_pio:checked + .chip-label {
+      background: var(--col-pioneros);
+      color: #ffffff;
+      border-color: #991b1b;
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35);
+    }
+
+    /* Rutas - Verde */
+    #sec_rut:checked + .chip-label {
+      background: var(--col-rutas);
+      color: #ffffff;
+      border-color: #14532d;
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35);
+    }
+
+    /* Kraal - Azul Clarito */
+    #sec_kra:checked + .chip-label {
+      background: var(--col-kraal);
+      color: #ffffff;
+      border-color: #0369a1;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+    }
+
+    /* Material y Campamentos - Dorado Scout */
+    #sec_mat:checked + .chip-label,
+    #camp_ini:checked + .chip-label,
+    #camp_pas:checked + .chip-label,
+    #camp_ver:checked + .chip-label {
+      background: var(--col-dorado);
+      color: #ffffff;
+      border-color: #78350f;
+      box-shadow: 0 4px 12px rgba(180, 83, 9, 0.35);
     }
 
     /* Payment Radio Grid */
@@ -420,7 +483,6 @@
             <div class="scanner-title">Adjuntar archivo o foto</div>
             <div class="scanner-subtitle">Pulsa para elegir PDF, documento o foto</div>
           </div>
-          <!-- Sin capture para permitir elegir entre Archivos/PDF y Cámara -->
           <input type="file" id="fileInput" accept="application/pdf,image/*">
           
           <div id="previewContainer">
@@ -457,35 +519,35 @@
         <div class="form-group">
           <label>Sección / Destino del Gasto <span class="req">*</span></label>
           <div class="chip-grid">
-            <input type="radio" id="com_mat" name="seccion" value="Material" class="chip-radio" checked>
+            <input type="radio" id="sec_mat" name="seccion" value="Material" class="chip-radio" checked>
             <label for="sec_mat" class="chip-label">⛺ Material</label>
 
             <input type="radio" id="sec_cas" name="seccion" value="Castores" class="chip-radio">
             <label for="sec_cas" class="chip-label">🦫 Castores</label>
 
-            <input type="radio" id="sec_ma" name="seccion" value="Manada" class="chip-radio">
+            <input type="radio" id="sec_man" name="seccion" value="Manada" class="chip-radio">
             <label for="sec_man" class="chip-label">🐺 Manada</label>
 
             <input type="radio" id="sec_tro" name="seccion" value="Tropa" class="chip-radio">
             <label for="sec_tro" class="chip-label">⚜️ Tropa</label>
 
-            <input type="radio" id="sec_pios" name="seccion" value="Pioneros" class="chip-radio">
-            <label for="sec_pios" class="chip-label">🪓 Pioneros</label>
+            <input type="radio" id="sec_pio" name="seccion" value="Pioneros" class="chip-radio">
+            <label for="sec_pio" class="chip-label">🪓 Pioneros</label>
 
-            <input type="radio" id="sec_ru" name="seccion" value="Rutas" class="chip-radio">
-            <label for="sec_ru" class="chip-label">⭐ Rutas</label>
+            <input type="radio" id="sec_rut" name="seccion" value="Rutas" class="chip-radio">
+            <label for="sec_rut" class="chip-label">⭐ Rutas</label>
 
-            <input type="radio" id="sec_kral" name="seccion" value="Kraal" class="chip-radio">
-            <label for="sec_kral" class="chip-label">🦉 Kraal</label>
+            <input type="radio" id="sec_kra" name="seccion" value="Kraal" class="chip-radio">
+            <label for="sec_kra" class="chip-label">🦉 Kraal</label>
 
             <input type="radio" id="camp_ini" name="seccion" value="Campamento Inicio" class="chip-radio">
-            <label for="camp_ini" class="chip-label">⛰️ Campamento Inicio</label>
-           
+            <label for="camp_ini" class="chip-label">⛰️ Camp. Inicio</label>
+            
             <input type="radio" id="camp_pas" name="seccion" value="Campamento Pascua" class="chip-radio">
-            <label for="camp_pas" class="chip-label">🐇 Campamento Pascua</label>
+            <label for="camp_pas" class="chip-label">🐇 Camp. Pascua</label>
             
             <input type="radio" id="camp_ver" name="seccion" value="Campamento Verano" class="chip-radio">
-            <label for="camp_ver" class="chip-label">🐇 Campamento Verano</label>
+            <label for="camp_ver" class="chip-label">☀️ Camp. Verano</label>
           </div>
         </div>
 
@@ -500,7 +562,7 @@
             <label for="pay_trans" class="payment-label">🏦 Transferencia</label>
 
             <input type="radio" id="pay_cash" name="forma_pago" value="Efectivo" class="payment-radio">
-            <label for="pay_cash" class="payment-label">💶 Efectivo </label>
+            <label for="pay_cash" class="payment-label">💶 Efectivo</label>
 
             <input type="radio" id="pay_mon" name="forma_pago" value="Puesto por Monitor (A devolver)" class="payment-radio">
             <label for="pay_mon" class="payment-label">🙋 Personal</label>
@@ -541,7 +603,6 @@
     const pdfSize = document.getElementById('pdfSize');
     const dropzone = document.getElementById('dropzone');
 
-    // Redimensionar fotos a tamaño estándar manteniendo color original y nitidez
     function compressImage(imgElement) {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
@@ -560,7 +621,7 @@
       canvas.width = width;
       canvas.height = height;
       ctx.drawImage(imgElement, 0, 0, width, height);
-      return canvas.toDataURL('image/jpeg', 0.85); // JPEG ligero con colores nítidos originales
+      return canvas.toDataURL('image/jpeg', 0.85);
     }
 
     fileInput.addEventListener('change', function(e) {
@@ -586,7 +647,6 @@
           };
           tempImg.src = event.target.result;
         } else {
-          // Documento PDF
           base64File = event.target.result.split(',')[1];
           pdfName.textContent = file.name;
           pdfSize.textContent = (file.size / 1024).toFixed(1) + " KB • Documento PDF";
@@ -639,10 +699,21 @@
       submitBtn.innerHTML = "Guardando gasto...";
       statusAlert.style.display = 'none';
 
-      // Modo de prueba si no se ha configurado la URL
       if (APPS_SCRIPT_URL === "URL_DE_TU_GOOGLE_APPS_SCRIPT") {
         setTimeout(() => {
-          const mockPrefix = seccion.substring(0, 3).toUpperCase();
+          const prefixMap = {
+            "Material": "MAT",
+            "Castores": "CAS",
+            "Manada": "MAN",
+            "Tropa": "TRO",
+            "Pioneros": "PIO",
+            "Rutas": "RUT",
+            "Kraal": "KRA",
+            "Campamento Inicio": "C-INI",
+            "Campamento Pascua": "C-PAS",
+            "Campamento Verano": "C-VER"
+          };
+          const mockPrefix = prefixMap[seccion] || "GAS";
           const mockCode = mockPrefix + "-5";
           statusAlert.className = "alert-success";
           statusAlert.innerHTML = `
