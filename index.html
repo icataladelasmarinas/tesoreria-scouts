@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tesoreria Grupo Scout Pio XII - Registro de Facturas</title>
+  <title>Tesorería Grupo Scout Pío XII - Registro de Facturas</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #4c1d95;       /* Morado principal */
-      --primary-dark: #2e1065;  /* Morado muy oscuro (hover y textos) */
-      --primary-light: #f3e8ff; /* Morado suave para fondos y toques */
-      --accent: #d97706;        /* Dorado / Ámbar para selecciones */
-      --accent-gold: #f59e0b;   /* Dorado brillante */
-      --bg: #faf5ff;            /* Fondo general claro con matiz lila */
+      --primary-dark: #2e1065;  /* Morado muy oscuro */
+      --primary-light: #f3e8ff; /* Morado claro */
+      --accent: #f0ce3f;        /* Dorado / Ámbar */
+      --accent-gold: #f4e7b0;   /* Dorado */
+      --bg: #faf5ff;            /* Fondo suave */
       --card-bg: #ffffff;
       --text: #1f2937;
       --text-muted: #6b7280;
@@ -54,27 +54,28 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 52px;
-      height: 52px;
+      width: 54px;
+      height: 54px;
       background: var(--primary);
-      color: #fff;
+      color: #fbbf24;
       border-radius: 50%;
-      font-size: 26px;
+      font-size: 28px;
       margin-bottom: 12px;
-      box-shadow: 0 4px 12px rgba(45, 90, 39, 0.25);
+      box-shadow: 0 4px 14px rgba(76, 29, 149, 0.3);
     }
 
     .header h1 {
-      font-size: 24px;
+      font-size: 23px;
       font-weight: 800;
       color: var(--primary-dark);
       letter-spacing: -0.5px;
+      line-height: 1.2;
     }
 
     .header p {
       font-size: 14px;
       color: var(--text-muted);
-      margin-top: 4px;
+      margin-top: 6px;
     }
 
     .card {
@@ -82,7 +83,7 @@
       border-radius: var(--radius);
       padding: 24px 20px;
       box-shadow: var(--shadow);
-      border: 1px solid rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(76, 29, 149, 0.08);
     }
 
     .form-group {
@@ -93,14 +94,14 @@
       display: block;
       font-size: 13px;
       font-weight: 700;
-      color: #374151;
+      color: #507cc2;
       margin-bottom: 7px;
       text-transform: uppercase;
       letter-spacing: 0.4px;
     }
 
     label span.req {
-      color: #ef4444;
+      color: #d42323;
       margin-left: 2px;
     }
 
@@ -124,7 +125,7 @@
     textarea:focus {
       border-color: var(--primary);
       background: #fff;
-      box-shadow: 0 0 0 4px rgba(45, 90, 39, 0.12);
+      box-shadow: 0 0 0 4px rgba(76, 29, 149, 0.12);
     }
 
     .currency-input {
@@ -148,17 +149,16 @@
       font-size: 18px;
     }
 
-    /* Scanner / Camera Dropzone */
+    /* Selector de Archivos / PDF / Foto */
     .scanner-box {
-      border: 2px dashed #9ca3af;
+      border: 2px dashed #a855f7;
       border-radius: 14px;
-      padding: 20px 16px;
+      padding: 22px 16px;
       text-align: center;
-      background: #f9fafb;
+      background: #faf5ff;
       cursor: pointer;
       transition: all 0.2s ease;
       position: relative;
-      overflow: hidden;
     }
 
     .scanner-box:hover {
@@ -166,23 +166,17 @@
       background: var(--primary-light);
     }
 
-    .scanner-box.has-file {
-      border-color: var(--primary);
-      background: #fff;
-      padding: 12px;
-    }
-
     .scanner-icon {
-      font-size: 32px;
+      font-size: 34px;
       margin-bottom: 6px;
       display: block;
     }
 
     .scanner-title {
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 700;
       color: var(--primary-dark);
-      margin-bottom: 2px;
+      margin-bottom: 3px;
     }
 
     .scanner-subtitle {
@@ -198,24 +192,55 @@
       display: none;
       position: relative;
       margin-top: 10px;
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
-      max-height: 220px;
+      border: 1.5px solid var(--border);
+      background: #f9fafb;
     }
 
     #previewImg {
       width: 100%;
-      height: 220px;
-      object-fit: cover;
-      border-radius: 10px;
+      max-height: 240px;
+      object-fit: contain;
+      background: #f3f4f6;
       display: block;
+    }
+
+    .file-doc-preview {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      gap: 12px;
+    }
+
+    .file-doc-preview .doc-icon {
+      font-size: 32px;
+    }
+
+    .file-doc-preview .doc-info {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .file-doc-preview .doc-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--primary-dark);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-doc-preview .doc-size {
+      font-size: 12px;
+      color: var(--text-muted);
     }
 
     .remove-btn {
       position: absolute;
       top: 8px;
       right: 8px;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.65);
       color: white;
       border: none;
       border-radius: 50%;
@@ -258,7 +283,7 @@
       background: var(--primary);
       color: #ffffff;
       border-color: var(--primary-dark);
-      box-shadow: 0 4px 10px rgba(45, 90, 39, 0.2);
+      box-shadow: 0 4px 10px rgba(76, 29, 149, 0.25);
     }
 
     /* Payment Radio Grid */
@@ -303,7 +328,7 @@
       font-size: 16px;
       font-weight: 800;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(45, 90, 39, 0.35);
+      box-shadow: 0 4px 14px rgba(76, 29, 149, 0.35);
       transition: all 0.2s ease;
       margin-top: 10px;
       display: flex;
@@ -327,38 +352,51 @@
       cursor: not-allowed;
     }
 
-    /* Status Banner */
+    /* Status Alert */
     #statusAlert {
       display: none;
-      margin-top: 16px;
-      padding: 14px;
+      margin-top: 18px;
+      padding: 16px;
       border-radius: 12px;
       font-size: 14px;
-      font-weight: 600;
       text-align: center;
     }
 
     .alert-success {
       background: #dcfce7;
       color: #166534;
-      border: 1px solid #bbf7d0;
+      border: 1.5px solid #86efac;
     }
 
     .alert-error {
       background: #fee2e2;
       color: #991b1b;
-      border: 1px solid #fecaca;
+      border: 1.5px solid #fca5a5;
     }
 
-    .config-note {
-      margin-top: 20px;
-      padding: 12px;
-      background: #fffbeb;
-      border-radius: 10px;
-      border: 1px dashed #f59e0b;
+    .code-box {
+      background: #ffffff;
+      border: 2px dashed #166534;
+      padding: 14px;
+      border-radius: 12px;
+      margin: 12px 0;
+    }
+
+    .code-title {
       font-size: 12px;
-      color: #78350f;
-      line-height: 1.4;
+      font-weight: 700;
+      color: #166534;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: block;
+    }
+
+    .code-number {
+      font-size: 34px;
+      font-weight: 900;
+      color: #166534;
+      letter-spacing: 1.5px;
+      margin: 4px 0;
     }
   </style>
 </head>
@@ -367,36 +405,46 @@
   <div class="container">
     <div class="header">
       <div class="badge-fleur">⚜️</div>
-      <h1>Tesorería Grupo Scout Pio XII</h1>
-      <p>Registro rápido de gastos y facturas</p>
+      <h1>Tesorería Grupo Scout Pío XII</h1>
+      <p>Registro de gastos, facturas y tickets</p>
     </div>
 
     <div class="card">
       <form id="expenseForm">
         
-        <!-- Scanner / Ticket Capture -->
+        <!-- Adjuntar Factura / PDF / Foto -->
         <div class="form-group">
-          <label>Foto del Ticket / Factura <span class="req">*</span></label>
+          <label>Ticket o Factura (PDF o Imagen) <span class="req">*</span></label>
           <div class="scanner-box" id="dropzone" onclick="document.getElementById('fileInput').click()">
-            <span class="scanner-icon">📸</span>
-            <div class="scanner-title">Escanear o subir ticket</div>
-            <div class="scanner-subtitle">Abre la cámara en el móvil o sube foto/PDF</div>
+            <span class="scanner-icon">📎</span>
+            <div class="scanner-title">Adjuntar archivo o foto</div>
+            <div class="scanner-subtitle">Pulsa para elegir PDF, documento o foto</div>
           </div>
-          <input type="file" id="fileInput" accept="image/*,application/pdf" capture="environment">
+          <!-- Sin capture para permitir elegir entre Archivos/PDF y Cámara -->
+          <input type="file" id="fileInput" accept="application/pdf,image/*">
           
           <div id="previewContainer">
-            <img id="previewImg" src="" alt="Previsualización">
-            <button type="button" class="remove-btn" onclick="removePhoto(event)">✕</button>
+            <div id="imagePreviewWrapper" style="display: none;">
+              <img id="previewImg" src="" alt="Previsualización">
+            </div>
+            <div id="pdfPreviewWrapper" class="file-doc-preview" style="display: none;">
+              <div class="doc-icon">📄</div>
+              <div class="doc-info">
+                <div class="doc-name" id="pdfName">documento.pdf</div>
+                <div class="doc-size" id="pdfSize">PDF listo para subir</div>
+              </div>
+            </div>
+            <button type="button" class="remove-btn" onclick="removeFile(event)">✕</button>
           </div>
         </div>
 
-        <!-- Expense Concept -->
+        <!-- Concepto -->
         <div class="form-group">
           <label for="concepto">Concepto / Nombre del Gasto <span class="req">*</span></label>
-          <input type="text" id="concepto" name="concepto" placeholder="Ej: Cuerdas para campamento, Compra comida..." required>
+          <input type="text" id="concepto" name="concepto" placeholder="Ej: Compra comida, Material acampada..." required>
         </div>
 
-        <!-- Amount -->
+        <!-- Importe -->
         <div class="form-group">
           <label for="importe">Importe Exacto <span class="req">*</span></label>
           <div class="currency-input">
@@ -405,61 +453,67 @@
           </div>
         </div>
 
-        <!-- Section Selection (Which Sheet) -->
+        <!-- Sección / Hoja -->
         <div class="form-group">
           <label>Sección / Destino del Gasto <span class="req">*</span></label>
           <div class="chip-grid">
-            <input type="radio" id="sec_mat" name="seccion" value="Material" class="chip-radio" checked>
+            <input type="radio" id="com_mat" name="seccion" value="Material" class="chip-radio" checked>
             <label for="sec_mat" class="chip-label">⛺ Material</label>
 
             <input type="radio" id="sec_cas" name="seccion" value="Castores" class="chip-radio">
             <label for="sec_cas" class="chip-label">🦫 Castores</label>
 
-            <input type="radio" id="sec_man" name="seccion" value="Manada" class="chip-radio">
+            <input type="radio" id="sec_ma" name="seccion" value="Manada" class="chip-radio">
             <label for="sec_man" class="chip-label">🐺 Manada</label>
 
             <input type="radio" id="sec_tro" name="seccion" value="Tropa" class="chip-radio">
             <label for="sec_tro" class="chip-label">⚜️ Tropa</label>
 
-            <input type="radio" id="sec_esc" name="seccion" value="Escultas" class="chip-radio">
-            <label for="sec_esc" class="chip-label">🪓 Pioneros</label>
+            <input type="radio" id="sec_pios" name="seccion" value="Pioneros" class="chip-radio">
+            <label for="sec_pios" class="chip-label">🪓 Pioneros</label>
 
-            <input type="radio" id="sec_cla" name="seccion" value="Clan" class="chip-radio">
-            <label for="sec_cla" class="chip-label">🔥 Rutas</label>
+            <input type="radio" id="sec_ru" name="seccion" value="Rutas" class="chip-radio">
+            <label for="sec_ru" class="chip-label">⭐ Rutas</label>
 
-            <input type="radio" id="sec_kra" name="seccion" value="Kraal" class="chip-radio">
-            <label for="sec_kra" class="chip-label">🦉 Kraal</label>
+            <input type="radio" id="sec_kral" name="seccion" value="Kraal" class="chip-radio">
+            <label for="sec_kral" class="chip-label">🦉 Kraal</label>
 
-            <input type="radio" id="sec_otr" name="seccion" value="Otros" class="chip-radio">
-            <label for="sec_otr" class="chip-label">📦 General</label>
+            <input type="radio" id="camp_ini" name="seccion" value="Campamento Inicio" class="chip-radio">
+            <label for="camp_ini" class="chip-label">⛰️ Campamento Inicio</label>
+           
+            <input type="radio" id="camp_pas" name="seccion" value="Campamento Pascua" class="chip-radio">
+            <label for="camp_pas" class="chip-label">🐇 Campamento Pascua</label>
+            
+            <input type="radio" id="camp_ver" name="seccion" value="Campamento Verano" class="chip-radio">
+            <label for="camp_ver" class="chip-label">🐇 Campamento Verano</label>
           </div>
         </div>
 
-        <!-- Payment Method -->
+        <!-- Forma de Pago -->
         <div class="form-group">
           <label>Forma de Pago <span class="req">*</span></label>
           <div class="payment-grid">
-            <input type="radio" id="pay_card" name="forma_pago" value="Tarjeta del Grupo" class="payment-radio" checked>
-            <label for="pay_card" class="payment-label">💳 Tarjeta Grupo</label>
+            <input type="radio" id="pay_card" name="forma_pago" value="Tarjeta" class="payment-radio" checked>
+            <label for="pay_card" class="payment-label">💳 Tarjeta</label>
 
-            <input type="radio" id="pay_trans" name="forma_pago" value="Transferencia / Bizum" class="payment-radio">
-            <label for="pay_trans" class="payment-label">📱 Bizum / Banco</label>
+            <input type="radio" id="pay_trans" name="forma_pago" value="Transferencia" class="payment-radio">
+            <label for="pay_trans" class="payment-label">🏦 Transferencia</label>
 
-            <input type="radio" id="pay_cash" name="forma_pago" value="Efectivo de Caja" class="payment-radio">
-            <label for="pay_cash" class="payment-label">💶 Efectivo Caja</label>
+            <input type="radio" id="pay_cash" name="forma_pago" value="Efectivo" class="payment-radio">
+            <label for="pay_cash" class="payment-label">💶 Efectivo </label>
 
             <input type="radio" id="pay_mon" name="forma_pago" value="Puesto por Monitor (A devolver)" class="payment-radio">
-            <label for="pay_mon" class="payment-label">🙋 Adelanto Monitor</label>
+            <label for="pay_mon" class="payment-label">🙋 Personal</label>
           </div>
         </div>
 
-        <!-- Monitor Name -->
+        <!-- Responsable -->
         <div class="form-group">
           <label for="scouter">Monitor / Scouter que registra <span class="req">*</span></label>
-          <input type="text" id="scouter" name="scouter" placeholder="Tu nombre o tótem" required>
+          <input type="text" id="scouter" name="scouter" placeholder="Tu nombre" required>
         </div>
 
-        <!-- Submit Button -->
+        <!-- Botón Enviar -->
         <button type="submit" class="btn-submit" id="submitBtn">
           <span>Registrar Gasto</span>
           <span>➜</span>
@@ -470,104 +524,91 @@
     </div>
   </div>
 
- <script>
-    // Tu enlace de Google Apps Script
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbykbbKTT1OZQ1xfnoU_fgkgAqn5Kz6LAZH7LOdMmW7g7TS2xoI5rtJL4vnkQdFFwYg-MA/exec";
+  <script>
+    // PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
+    const APPS_SCRIPT_URL = "URL_DE_TU_GOOGLE_APPS_SCRIPT";
 
     let base64File = "";
     let fileName = "";
-    let fileType = "image/jpeg";
+    let fileType = "";
 
     const fileInput = document.getElementById('fileInput');
     const previewContainer = document.getElementById('previewContainer');
+    const imageWrapper = document.getElementById('imagePreviewWrapper');
+    const pdfWrapper = document.getElementById('pdfPreviewWrapper');
     const previewImg = document.getElementById('previewImg');
+    const pdfName = document.getElementById('pdfName');
+    const pdfSize = document.getElementById('pdfSize');
     const dropzone = document.getElementById('dropzone');
 
-    // Motor de escaneado: Redimensión + Filtro de contraste de documento
-    function processScannedReceipt(imgElement) {
+    // Redimensionar fotos a tamaño estándar manteniendo color original y nitidez
+    function compressImage(imgElement) {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      
-      const maxDim = 1500; // Resolución óptima para lectura de tickets
+      const maxDim = 1600;
       let width = imgElement.naturalWidth || imgElement.width;
       let height = imgElement.naturalHeight || imgElement.height;
       
-      if (width > height) {
-        if (width > maxDim) {
-          height = Math.round((height * maxDim) / width);
-          width = maxDim;
-        }
-      } else {
-        if (height > maxDim) {
-          width = Math.round((width * maxDim) / height);
-          height = maxDim;
-        }
+      if (width > height && width > maxDim) {
+        height = Math.round((height * maxDim) / width);
+        width = maxDim;
+      } else if (height > maxDim) {
+        width = Math.round((width * maxDim) / height);
+        height = maxDim;
       }
       
       canvas.width = width;
       canvas.height = height;
       ctx.drawImage(imgElement, 0, 0, width, height);
-      
-      // Aplicar filtro de contraste para efecto "escáner de oficina"
-      const imgData = ctx.getImageData(0, 0, width, height);
-      const d = imgData.data;
-      
-      for (let i = 0; i < d.length; i += 4) {
-        // Luminancia estándar
-        const gray = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
-        
-        // Aumenta el contraste y aclara el fondo del papel
-        let adjusted = ((gray - 128) * 1.45) + 128;
-        if (adjusted > 195) adjusted = 255; // Fondo blanco puro
-        if (adjusted < 55) adjusted = 0;    // Texto negro puro
-        adjusted = Math.min(255, Math.max(0, adjusted));
-        
-        d[i] = adjusted;
-        d[i + 1] = adjusted;
-        d[i + 2] = adjusted;
-      }
-      
-      ctx.putImageData(imgData, 0, 0);
-      return canvas.toDataURL('image/jpeg', 0.65); // JPEG ligero de alta resolución
+      return canvas.toDataURL('image/jpeg', 0.85); // JPEG ligero con colores nítidos originales
     }
 
     fileInput.addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (!file) return;
 
-      fileName = "scan_" + file.name.replace(/\.[^/.]+$/, "") + ".jpg";
+      fileName = file.name;
+      fileType = file.type;
 
       const reader = new FileReader();
       reader.onload = function(event) {
         if (file.type.startsWith('image/')) {
           const tempImg = new Image();
           tempImg.onload = function() {
-            // Se procesa la foto al instante convirtiéndola en escaneado
-            const scannedDataUrl = processScannedReceipt(tempImg);
-            base64File = scannedDataUrl.split(',')[1];
-            previewImg.src = scannedDataUrl;
+            const compressedDataUrl = compressImage(tempImg);
+            base64File = compressedDataUrl.split(',')[1];
+            fileType = "image/jpeg";
+            previewImg.src = compressedDataUrl;
+            imageWrapper.style.display = 'block';
+            pdfWrapper.style.display = 'none';
             previewContainer.style.display = 'block';
             dropzone.style.display = 'none';
           };
           tempImg.src = event.target.result;
         } else {
-          // Si suben un PDF directamente
+          // Documento PDF
           base64File = event.target.result.split(',')[1];
-          fileType = file.type;
-          dropzone.innerHTML = `<span class="scanner-icon">📄</span><div class="scanner-title">${file.name}</div><div class="scanner-subtitle">Documento PDF cargado</div>`;
+          pdfName.textContent = file.name;
+          pdfSize.textContent = (file.size / 1024).toFixed(1) + " KB • Documento PDF";
+          imageWrapper.style.display = 'none';
+          pdfWrapper.style.display = 'flex';
+          previewContainer.style.display = 'block';
+          dropzone.style.display = 'none';
         }
       };
       reader.readAsDataURL(file);
     });
 
-    function removePhoto(e) {
+    function removeFile(e) {
       if (e) e.stopPropagation();
       fileInput.value = "";
       base64File = "";
       fileName = "";
+      fileType = "";
       previewContainer.style.display = 'none';
+      imageWrapper.style.display = 'none';
+      pdfWrapper.style.display = 'none';
       dropzone.style.display = 'block';
-      dropzone.innerHTML = `<span class="scanner-icon">📸</span><div class="scanner-title">Escanear ticket</div><div class="scanner-subtitle">Toma foto y la procesa como escaneado</div>`;
     }
 
     document.getElementById('expenseForm').addEventListener('submit', async function(e) {
@@ -591,29 +632,64 @@
         scouter: scouter,
         archivoBase64: base64File,
         nombreArchivo: fileName,
-        tipoArchivo: "image/jpeg"
+        tipoArchivo: fileType
       };
 
       submitBtn.disabled = true;
-      submitBtn.innerHTML = "Guardando documento...";
+      submitBtn.innerHTML = "Guardando gasto...";
       statusAlert.style.display = 'none';
 
+      // Modo de prueba si no se ha configurado la URL
+      if (APPS_SCRIPT_URL === "URL_DE_TU_GOOGLE_APPS_SCRIPT") {
+        setTimeout(() => {
+          const mockPrefix = seccion.substring(0, 3).toUpperCase();
+          const mockCode = mockPrefix + "-5";
+          statusAlert.className = "alert-success";
+          statusAlert.innerHTML = `
+            <div style="font-size: 17px; font-weight: 800; margin-bottom: 6px;">✅ ¡Gasto registrado!</div>
+            <div class="code-box">
+              <span class="code-title">Código para el ticket físico</span>
+              <div class="code-number">${mockCode}</div>
+            </div>
+            <div style="font-size: 13px; line-height: 1.4;">✍️ <b>Apunta con boli "${mockCode}"</b> en la esquina del ticket físico.<br><small>(Configura la URL de Apps Script para guardar en tu Excel real)</small></div>
+          `;
+          statusAlert.style.display = 'block';
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = "<span>Registrar Gasto</span><span>➜</span>";
+          document.getElementById('expenseForm').reset();
+          removeFile();
+        }, 800);
+        return;
+      }
+
       try {
-        await fetch(APPS_SCRIPT_URL, {
+        const response = await fetch(APPS_SCRIPT_URL, {
           method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
 
-        statusAlert.className = "alert-success";
-        statusAlert.innerHTML = `✅ <b>¡Gasto y factura escaneada guardados en ${seccion}!</b>`;
-        statusAlert.style.display = 'block';
-        document.getElementById('expenseForm').reset();
-        removePhoto();
+        const res = await response.json();
+
+        if (res.status === "success") {
+          statusAlert.className = "alert-success";
+          statusAlert.innerHTML = `
+            <div style="font-size: 17px; font-weight: 800; margin-bottom: 6px;">✅ ¡Gasto registrado con éxito!</div>
+            <div class="code-box">
+              <span class="code-title">Código para el ticket físico</span>
+              <div class="code-number">${res.ticketCode}</div>
+            </div>
+            <div style="font-size: 13px; line-height: 1.4;">✍️ <b>Apunta con boli "${res.ticketCode}"</b> en la esquina del ticket físico y guárdalo en la carpeta.</div>
+          `;
+          statusAlert.style.display = 'block';
+          document.getElementById('expenseForm').reset();
+          removeFile();
+          window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        } else {
+          throw new Error(res.message);
+        }
       } catch (err) {
         statusAlert.className = "alert-error";
-        statusAlert.innerHTML = "❌ Error al enviar. Comprueba la conexión.";
+        statusAlert.innerHTML = "❌ Error al enviar. Comprueba la conexión o la URL.";
         statusAlert.style.display = 'block';
       } finally {
         submitBtn.disabled = false;
