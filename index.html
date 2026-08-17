@@ -103,7 +103,7 @@
       display: block;
       font-size: 13px;
       font-weight: 700;
-      color: #374151; /* Texto oscuro original */
+      color: #374151;
       margin-bottom: 7px;
       text-transform: uppercase;
       letter-spacing: 0.4px;
@@ -127,6 +127,7 @@
       color: var(--text);
       transition: all 0.2s ease;
       outline: none;
+      resize: vertical;
     }
 
     input:focus,
@@ -263,7 +264,7 @@
       justify-content: center;
     }
 
-    /* Section Chips con colores por rama */
+    /* Section Chips con colores personalizados por rama */
     .chip-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -327,7 +328,7 @@
       background: var(--col-rutas);
       color: #ffffff;
       border-color: #14532d;
-      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35);
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35);
     }
 
     /* Kraal - Azul Clarito */
@@ -575,6 +576,12 @@
           <input type="text" id="scouter" name="scouter" placeholder="Tu nombre" required>
         </div>
 
+        <!-- Observaciones / Comentarios (Opcional) -->
+        <div class="form-group">
+          <label for="comentarios">Observaciones / Notas <span style="font-size: 11px; color: var(--text-muted); font-weight: 500;">(Opcional)</span></label>
+          <textarea id="comentarios" name="comentarios" rows="2" placeholder="Ej: Falta ticket de 2€, pagado a medias con Tropa, etc."></textarea>
+        </div>
+
         <!-- Botón Enviar -->
         <button type="submit" class="btn-submit" id="submitBtn">
           <span>Registrar Gasto</span>
@@ -588,7 +595,7 @@
 
   <script>
     // PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
-    const APPS_SCRIPT_URL = "URL_DE_TU_GOOGLE_APPS_SCRIPT";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyfpaazDcrIqLEUzvsZZLbsr5dXc-jMdqM07oMiAqdBdpRW5tO_r9xgkqitpm5JSIbCaA/exec";
 
     let base64File = "";
     let fileName = "";
@@ -682,6 +689,7 @@
       const concepto = document.getElementById('concepto').value;
       const importe = document.getElementById('importe').value;
       const scouter = document.getElementById('scouter').value;
+      const comentarios = document.getElementById('comentarios').value;
 
       const payload = {
         fecha: new Date().toLocaleString('es-ES'),
@@ -690,6 +698,7 @@
         importe: parseFloat(importe),
         formaPago: formaPago,
         scouter: scouter,
+        comentarios: comentarios,
         archivoBase64: base64File,
         nombreArchivo: fileName,
         tipoArchivo: fileType
