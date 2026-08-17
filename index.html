@@ -470,49 +470,104 @@
     </div>
   </div>
 
-  <script>
-    // Configura aquí la URL generada al publicar tu Google Apps Script
+ <script>
+    // Tu enlace de Google Apps Script
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbykbbKTT1OZQ1xfnoU_fgkgAqn5Kz6LAZH7LOdMmW7g7TS2xoI5rtJL4vnkQdFFwYg-MA/exec";
 
     let base64File = "";
     let fileName = "";
-    let fileType = "";
+    let fileType = "image/jpeg";
 
     const fileInput = document.getElementById('fileInput');
     const previewContainer = document.getElementById('previewContainer');
     const previewImg = document.getElementById('previewImg');
     const dropzone = document.getElementById('dropzone');
 
+    // Motor de escaneado: Redimensión + Filtro de contraste de documento
+    function processScannedReceipt(imgElement) {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      
+      const maxDim = 1500; // Resolución óptima para lectura de tickets
+      let width = imgElement.naturalWidth || imgElement.width;
+      let height = imgElement.naturalHeight || imgElement.height;
+      
+      if (width > height) {
+        if (width > maxDim) {
+          height = Math.round((height * maxDim) / width);
+          width = maxDim;
+        }
+      } else {
+        if (height > maxDim) {
+          width = Math.round((width * maxDim) / height);
+          height = maxDim;
+        }
+      }
+      
+      canvas.width = width;
+      canvas.height = height;
+      ctx.drawImage(imgElement, 0, 0, width, height);
+      
+      // Aplicar filtro de contraste para efecto "escáner de oficina"
+      const imgData = ctx.getImageData(0, 0, width, height);
+      const d = imgData.data;
+      
+      for (let i = 0; i < d.length; i += 4) {
+        // Luminancia estándar
+        const gray = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+        
+        // Aumenta el contraste y aclara el fondo del papel
+        let adjusted = ((gray - 128) * 1.45) + 128;
+        if (adjusted > 195) adjusted = 255; // Fondo blanco puro
+        if (adjusted < 55) adjusted = 0;    // Texto negro puro
+        adjusted = Math.min(255, Math.max(0, adjusted));
+        
+        d[i] = adjusted;
+        d[i + 1] = adjusted;
+        d[i + 2] = adjusted;
+      }
+      
+      ctx.putImageData(imgData, 0, 0);
+      return canvas.toDataURL('image/jpeg', 0.65); // JPEG ligero de alta resolución
+    }
+
     fileInput.addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (!file) return;
 
-      fileName = file.name;
-      fileType = file.type;
+      fileName = "scan_" + file.name.replace(/\.[^/.]+$/, "") + ".jpg";
 
       const reader = new FileReader();
       reader.onload = function(event) {
-        base64File = event.target.result.split(',')[1];
         if (file.type.startsWith('image/')) {
-          previewImg.src = event.target.result;
-          previewContainer.style.display = 'block';
-          dropzone.style.display = 'none';
+          const tempImg = new Image();
+          tempImg.onload = function() {
+            // Se procesa la foto al instante convirtiéndola en escaneado
+            const scannedDataUrl = processScannedReceipt(tempImg);
+            base64File = scannedDataUrl.split(',')[1];
+            previewImg.src = scannedDataUrl;
+            previewContainer.style.display = 'block';
+            dropzone.style.display = 'none';
+          };
+          tempImg.src = event.target.result;
         } else {
-          dropzone.innerHTML = `<span class="scanner-icon">📄</span><div class="scanner-title">${file.name}</div><div class="scanner-subtitle">Documento cargado</div>`;
+          // Si suben un PDF directamente
+          base64File = event.target.result.split(',')[1];
+          fileType = file.type;
+          dropzone.innerHTML = `<span class="scanner-icon">📄</span><div class="scanner-title">${file.name}</div><div class="scanner-subtitle">Documento PDF cargado</div>`;
         }
       };
       reader.readAsDataURL(file);
     });
 
     function removePhoto(e) {
-      e.stopPropagation();
+      if (e) e.stopPropagation();
       fileInput.value = "";
       base64File = "";
       fileName = "";
-      fileType = "";
       previewContainer.style.display = 'none';
       dropzone.style.display = 'block';
-      dropzone.innerHTML = `<span class="scanner-icon">📸</span><div class="scanner-title">Escanear o subir ticket</div><div class="scanner-subtitle">Abre la cámara en el móvil o sube foto/PDF</div>`;
+      dropzone.innerHTML = `<span class="scanner-icon">📸</span><div class="scanner-title">Escanear ticket</div><div class="scanner-subtitle">Toma foto y la procesa como escaneado</div>`;
     }
 
     document.getElementById('expenseForm').addEventListener('submit', async function(e) {
@@ -536,28 +591,15 @@
         scouter: scouter,
         archivoBase64: base64File,
         nombreArchivo: fileName,
-        tipoArchivo: fileType
+        tipoArchivo: "image/jpeg"
       };
 
       submitBtn.disabled = true;
-      submitBtn.innerHTML = "Guardando en Excel...";
+      submitBtn.innerHTML = "Guardando documento...";
       statusAlert.style.display = 'none';
 
-      if (APPS_SCRIPT_URL === "URL_DE_TU_GOOGLE_APPS_SCRIPT") {
-        setTimeout(() => {
-          statusAlert.className = "alert-success";
-          statusAlert.innerHTML = `✅ <b>¡Gasto registrado localmente!</b><br>Sección: <b>${seccion}</b> | ${importe} €<br><small>(Para sincronizar en tiempo real con Excel/Drive, añade tu enlace de Apps Script)</small>`;
-          statusAlert.style.display = 'block';
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = "<span>Registrar Gasto</span><span>➜</span>";
-          document.getElementById('expenseForm').reset();
-          removePhoto(new Event('click'));
-        }, 1000);
-        return;
-      }
-
       try {
-        const response = await fetch(APPS_SCRIPT_URL, {
+        await fetch(APPS_SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
@@ -565,13 +607,13 @@
         });
 
         statusAlert.className = "alert-success";
-        statusAlert.innerHTML = `✅ <b>¡Gasto guardado con éxito en ${seccion}!</b>`;
+        statusAlert.innerHTML = `✅ <b>¡Gasto y factura escaneada guardados en ${seccion}!</b>`;
         statusAlert.style.display = 'block';
         document.getElementById('expenseForm').reset();
-        removePhoto(new Event('click'));
+        removePhoto();
       } catch (err) {
         statusAlert.className = "alert-error";
-        statusAlert.innerHTML = "❌ Error al enviar los datos. Comprueba la conexión.";
+        statusAlert.innerHTML = "❌ Error al enviar. Comprueba la conexión.";
         statusAlert.style.display = 'block';
       } finally {
         submitBtn.disabled = false;
